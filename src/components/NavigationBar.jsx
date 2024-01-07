@@ -1,9 +1,23 @@
 import React, {useContext, useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Navbar, Nav, NavDropdown, Container, Form, Button, FormControl, InputGroup, Modal, Tab, Tabs} from 'react-bootstrap';
+import {
+    Navbar,
+    Nav,
+    NavDropdown,
+    Container,
+    Form,
+    Button,
+    FormControl,
+    InputGroup,
+    Modal,
+    Tab,
+    Tabs,
+} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import {AuthContext} from "../context/AuthContext";
 import CityManager from "./CityManager";
+import {AuthenticationAPI} from "../api/Authentication";
+import Cookies from "js-cookie";
 
 
 const NavigationBar = () => {
@@ -11,7 +25,6 @@ const NavigationBar = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const [modalShow, setModalShow] = useState(false);
-
     const showModal = () => setModalShow(true);
     const hideModal = () => setModalShow(false);
 
@@ -28,6 +41,7 @@ const NavigationBar = () => {
         login: '',
         password: ''
     });
+
     const [registerForm, setRegisterForm] = useState({
         login: '',
         email: '',
@@ -36,27 +50,42 @@ const NavigationBar = () => {
     });
 
     const handleLoginInputChange = (e) => {
-        setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
+        setLoginForm({...loginForm, [e.target.name]: e.target.value});
     };
 
     const handleRegisterInputChange = (e) => {
-        setRegisterForm({ ...registerForm, [e.target.name]: e.target.value });
+        setRegisterForm({...registerForm, [e.target.name]: e.target.value});
     };
 
-    const handleLoginSubmit = (e) => {
+
+    async function handleLoginSubmit(e) {
         e.preventDefault();
-        // Perform login logic
-        console.log('Login', loginForm);
-        // setModalShow(false);
-    };
+        let response = await AuthenticationAPI.sign_in(loginForm);
+        if (response.status === 200){
+            setIsAuth(true);
+            Cookies.set('access_token', response.data.access_token);
+            Cookies.set('refresh_token', response.data.refresh_token);
+            window.location.reload();
+        }
+    }
 
-    const handleRegisterSubmit = (e) => {
+    async function handleRegisterSubmit(e) {
         e.preventDefault();
-        // Perform registration logic
-        console.log('Register', registerForm);
-        // setModalShow(false);
-    };
+        // console.log('Register', registerForm);
+        let response = await AuthenticationAPI.sign_up(registerForm)
+        if(response.status === 200)
+            //
+            setIsAuth(true);
+            window.location.reload();
+    }
 
+    async function handleLogout(e) {
+        e.preventDefault();
+        Cookies.remove('access_token');
+        Cookies.remove('refresh_token');
+        setIsAuth(false);
+        window.location.reload();
+    }
 
 
     return (
@@ -67,13 +96,26 @@ const NavigationBar = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav"/>
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
-                            <CityManager/>
                             <Nav.Link as={Link} to="/">Главная</Nav.Link>
-                            <NavDropdown menuVariant="dark" title="Студии и залы" id="basic-nav-dropdown">
+                            <Nav.Link as={Link} to="/news">Новости</Nav.Link>
+                            <NavDropdown menuVariant="dark" title="Студии и залы">
                                 <NavDropdown.Item as={Link} to="/studios">Студии</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/halls">Залы</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link as={Link} to="/photographers">Фотографы</Nav.Link>
+                        </Nav>
+                        <Nav>
+                            {isAuth === true ? (
+                                <NavDropdown variant="warning" menuVariant="dark" title="Личный кабинет">
+                                    <NavDropdown.Item as={Link} to="/profile/me">Профиль</NavDropdown.Item>
+                                    <NavDropdown.Item>Календарь</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    <NavDropdown.Item onClick={handleLogout}>Выйти</NavDropdown.Item>
+                                </NavDropdown>
+                            ) : (
+                                <Nav.Link onClick={showModal}>Личный кабинет</Nav.Link>
+                            )}
+                            <CityManager/>
                         </Nav>
                         <Form inline onSubmit={handleSearchSubmit}>
                             <InputGroup>
@@ -86,14 +128,10 @@ const NavigationBar = () => {
                                 />
                                 <Button variant="outline-warning" type="submit">Найти</Button>
                             </InputGroup>
-
-
                         </Form>
-                        {isAuth === true ? (
-                            <Button variant="warning" as={Link} to="/profile">Профиль</Button>
-                        ) : (
-                            <Button variant="warning" onClick={showModal}>Профиль</Button>
-                        )}
+
+
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

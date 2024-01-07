@@ -8,29 +8,28 @@ import HomePage from "./pages/HomePage";
 import StudiosPage from "./pages/StudiosPage";
 import HallsPage from "./pages/HallsPage";
 import PhotographersPage from "./pages/PhotographersPage";
-import {AuthContext} from "./context/AuthContext";
+import {AuthProvider} from "./context/AuthContext";
 import Profile from "./pages/Profile";
+import News from "./pages/News";
 
 
 function App() {
     const [isAuth, setIsAuth] = useState(false);
 
     return (
-        <AuthContext.Provider value={{
-            isAuth,
-            setIsAuth
-        }}>
+        <AuthProvider>
             <Router>
                 <NavigationBar/>
                 <Routes>
                     <Route exact path="/" element={ <HomePage/> } />
-                    <Route path="/profile" element={ <Profile/> } />
+                    <Route path="/news" element={ <News/> } />
+                    <Route path="/profile/me" element={ <Profile/> } />
                     <Route path="/studios" element={ <StudiosPage/> } />
                     <Route path="/halls" element={ <HallsPage/> } />
                     <Route path="/photographers" element={ <PhotographersPage/> } />
                 </Routes>
             </Router>
-        </AuthContext.Provider>
+        </AuthProvider>
     );
 }
 
