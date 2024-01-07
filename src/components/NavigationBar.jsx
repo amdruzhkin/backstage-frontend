@@ -45,8 +45,7 @@ const NavigationBar = () => {
     const [registerForm, setRegisterForm] = useState({
         login: '',
         email: '',
-        password_1: '',
-        password_2: ''
+        password: '',
     });
 
     const handleLoginInputChange = (e) => {
@@ -61,7 +60,7 @@ const NavigationBar = () => {
     async function handleLoginSubmit(e) {
         e.preventDefault();
         let response = await AuthenticationAPI.sign_in(loginForm);
-        if (response.status === 200){
+        if (response.status === 200) {
             setIsAuth(true);
             Cookies.set('access_token', response.data.access_token);
             Cookies.set('refresh_token', response.data.refresh_token);
@@ -71,11 +70,8 @@ const NavigationBar = () => {
 
     async function handleRegisterSubmit(e) {
         e.preventDefault();
-        // console.log('Register', registerForm);
         let response = await AuthenticationAPI.sign_up(registerForm)
-        if(response.status === 200)
-            //
-            setIsAuth(true);
+        if (response.status === 201)
             window.location.reload();
     }
 
@@ -109,7 +105,7 @@ const NavigationBar = () => {
                                 <NavDropdown variant="warning" menuVariant="dark" title="Личный кабинет">
                                     <NavDropdown.Item as={Link} to="/profile/me">Профиль</NavDropdown.Item>
                                     <NavDropdown.Item>Календарь</NavDropdown.Item>
-                                    <NavDropdown.Divider />
+                                    <NavDropdown.Divider/>
                                     <NavDropdown.Item onClick={handleLogout}>Выйти</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
@@ -129,7 +125,6 @@ const NavigationBar = () => {
                                 <Button variant="outline-warning" type="submit">Найти</Button>
                             </InputGroup>
                         </Form>
-
 
 
                     </Navbar.Collapse>
@@ -196,21 +191,12 @@ const NavigationBar = () => {
                                     <Form.Control
                                         type="password"
                                         placeholder=""
-                                        name="password_1"
-                                        value={registerForm.password_1}
+                                        name="password"
+                                        value={registerForm.password}
                                         onChange={handleRegisterInputChange}
                                     />
                                 </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Повторите пароль</Form.Label>
-                                    <Form.Control
-                                        type="password"
-                                        placeholder=""
-                                        name="password_2"
-                                        value={registerForm.password_2}
-                                        onChange={handleRegisterInputChange}
-                                    />
-                                </Form.Group>
+
                                 <Button variant="warning" type="submit" className="w-100">
                                     Зарегистрироваться
                                 </Button>

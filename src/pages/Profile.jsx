@@ -2,7 +2,6 @@ import * as React from 'react';
 import {Container, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
-import {Navigate} from 'react-router-dom';
 
 
 async function get_profile(setProfile){
