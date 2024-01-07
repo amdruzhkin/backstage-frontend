@@ -2,7 +2,7 @@ import axios from "axios";
 import {sha256} from "js-sha256";
 
 export class AuthenticationAPI{
-    static host = 'http://localhost:8081';
+    static host = 'http://localhost:8080';
     static headers = {
         'Content-type': 'application/json',
     };
@@ -10,6 +10,7 @@ export class AuthenticationAPI{
     static async sign_in(payload){
         const endpoint = '/auth/sign_in';
         payload.password = sha256(payload.password);
+        console.log(payload);
         const response = await axios({
             url: this.host + endpoint,
             method: "post",
@@ -26,6 +27,7 @@ export class AuthenticationAPI{
     static async sign_up(payload){
         const endpoint = '/auth/sign_up';
         payload.password = sha256(payload.password);
+        console.log(payload);
         const response = await axios({
             url: this.host + endpoint,
             method: "post",

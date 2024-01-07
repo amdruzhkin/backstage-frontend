@@ -6,7 +6,7 @@ import axios from "axios";
 
 async function get_profile(setProfile){
     const response = await axios({
-        url: 'http://localhost:8081/profile/me',
+        url: 'http://localhost:8080/profile/me',
         method: 'get',
         withCredentials: true,
     })
@@ -18,7 +18,7 @@ async function get_profile(setProfile){
 
 const Profile = () => {
 
-    const [profile, setProfile] = useState({'login': 'init', 'id': 'init', 'email': 'init'});
+    const [profile, setProfile] = useState({});
 
     useEffect(() => {
         get_profile(setProfile);
