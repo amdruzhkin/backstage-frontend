@@ -4,7 +4,7 @@ import axios from 'axios';
 
 async function getAvatar(setAvatarImg){
     const response = await axios({
-        url: 'http://localhost:8080/profile/avatar',
+        url: 'http://localhost:8081/profile/avatar',
         method: 'get',
         responseType: 'blob',
         withCredentials: true,

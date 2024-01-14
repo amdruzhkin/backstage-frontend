@@ -3,16 +3,19 @@ import {Container, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import ProfilePhoto from "../components/Avatar";
+import {AuthenticationAPI} from "../api/Authentication";
 
 
 async function getProfile(setProfile){
     const response = await axios({
-        url: 'http://localhost:8080/profile/me',
+        url: 'http://localhost:8081/profile/me',
         method: 'get',
         withCredentials: true,
     })
     if(response.status === 200) {
         setProfile(response.data);
+    }else if(response.status === 401){
+        await AuthenticationAPI.update_access_token();
     }
 }
 

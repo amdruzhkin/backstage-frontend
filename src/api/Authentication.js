@@ -1,5 +1,6 @@
 import axios from "axios";
 import {sha256} from "js-sha256";
+import Cookies from "js-cookie";
 
 export class AuthenticationAPI{
     static host = 'http://localhost:8080';
@@ -38,6 +39,17 @@ export class AuthenticationAPI{
             return error.response
         });
         return response;
+    };
+
+    static async update_access_token(){
+        const endpoint = '/auth/update_access_token';
+        const response = await axios({
+            url: this.host + endpoint,
+            method: 'get',
+            withCredentials: true,
+        }).then(function(){
+            Cookies.set('access_token', response.data.access_token)
+        })
     };
 }
 
