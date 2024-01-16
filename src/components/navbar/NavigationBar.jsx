@@ -11,12 +11,12 @@ import {
     InputGroup,
     Modal,
     Tab,
-    Tabs,
+    Tabs, Badge,
 } from 'react-bootstrap';
 import {Link} from "react-router-dom";
-import {AuthContext} from "../context/AuthContext";
-import CityManager from "./CityManager";
-import {AuthenticationAPI} from "../api/Authentication";
+import {AuthContext} from "../../context/AuthContext";
+import CityManager from "../CityManager";
+import {AuthenticationAPI} from "../../api/Authentication";
 import Cookies from "js-cookie";
 
 
@@ -59,13 +59,10 @@ const NavigationBar = () => {
 
     async function handleLoginSubmit(e) {
         e.preventDefault();
-        let response = await AuthenticationAPI.sign_in(loginForm);
-        if (response.status === 200) {
+        await AuthenticationAPI.sign_in(loginForm).then((response) => {
             setIsAuth(true);
-            Cookies.set('access_token', response.data.access_token);
-            Cookies.set('refresh_token', response.data.refresh_token);
             window.location.reload();
-        }
+        });
     }
 
     async function handleRegisterSubmit(e) {
@@ -93,7 +90,6 @@ const NavigationBar = () => {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link as={Link} to="/">Главная</Nav.Link>
-                            <Nav.Link as={Link} to="/news">Новости</Nav.Link>
                             <NavDropdown menuVariant="dark" title="Студии и залы">
                                 <NavDropdown.Item as={Link} to="/studios">Студии</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to="/halls">Залы</NavDropdown.Item>
@@ -109,7 +105,9 @@ const NavigationBar = () => {
                                     <NavDropdown.Item onClick={handleLogout}>Выйти</NavDropdown.Item>
                                 </NavDropdown>
                             ) : (
-                                <Nav.Link onClick={showModal}>Личный кабинет</Nav.Link>
+                                <Nav.Link onClick={showModal}>Личный кабинет
+
+                                </Nav.Link>
                             )}
                             <CityManager/>
                         </Nav>

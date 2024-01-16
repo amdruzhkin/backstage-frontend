@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import NavigationBar from './components/NavigationBar';
+import NavigationBar from './components/navbar/NavigationBar';
 import HomePage from "./pages/HomePage";
 import StudiosPage from "./pages/StudiosPage";
 import HallsPage from "./pages/HallsPage";
