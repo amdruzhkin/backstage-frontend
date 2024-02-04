@@ -1,18 +1,30 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Button, Form} from "react-bootstrap";
+import {AuthenticationAPI} from "../../api/Authentication";
+import {AuthContext} from "../../context/AuthContext";
+import {useNavigate} from "react-router-dom";
 
 const SignInForm = () => {
+    const {isAuth, setIsAuth} = useContext(AuthContext);
     const [signInData, setSignInData] = useState({email: '', password: ''});
+    const navigator = useNavigate();
 
 
     const handleSignInFormChange = (e) => {
         setSignInData({...signInData, [e.target.name]: e.target.value});
     };
 
-    const handleSignIn = (e) => {
+    async function handleSignIn(e) {
         e.preventDefault();
-        // Handle sign-in logic here
-        console.log('Sign In:', signInData);
+        await AuthenticationAPI.sign_in(signInData).then((response) => {
+            if(response.status === 200){
+                setIsAuth(true);
+                navigator('/');
+                window.location.reload();
+            }
+            //
+        });
+        // console.log('Sign In:', signInData);
     };
 
     return (
@@ -37,7 +49,7 @@ const SignInForm = () => {
                     onChange={handleSignInFormChange}
                 />
             </Form.Group>
-            <Button onClick={handleSignIn} variant="warning" type="submit" style={{width: "100%"}} className="mt-3">
+            <Button onClick={handleSignIn} variant="warning" type="submit" className="my-3 w-100">
                 Войти
             </Button>
         </Form>

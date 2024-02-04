@@ -57,7 +57,7 @@ const SignUpForm = () => {
                     name="password_2"
                     onChange={handleSignUpFormChange}/>
             </Form.Group>
-            <Button onClick={handleSignUp} variant="warning" type="submit" style={{width: "100%"}} className="mt-3">
+            <Button onClick={handleSignUp} variant="warning" type="submit" className="my-3 w-100">
                 Зарегистрироваться
             </Button>
         </Form>

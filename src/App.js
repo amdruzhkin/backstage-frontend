@@ -2,8 +2,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import HomePage from "./pages/HomePage";
-import StudiosPage from "./pages/StudiosPage";
-import HallsPage from "./pages/HallsPage";
+import StudiosPage from "./pages/Studios/StudiosPage";
+import HallsPage from "./pages/Halls/HallsPage";
 import PhotographersPage from "./pages/PhotographersPage";
 import {AuthProvider} from "./context/AuthContext";
 import Profile from "./pages/Profile";
