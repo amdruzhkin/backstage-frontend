@@ -1,11 +1,9 @@
 import React, {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext";
 import {Link} from "react-router-dom";
-import {Badge, Button, Container, Form, FormControl, InputGroup, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import CityManager from "./CityManager";
+import {Badge, Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {AuthenticationAPI} from "../../api/Authentication";
 import {useNavigate} from "react-router-dom";
-import {PersonCircle} from "react-bootstrap-icons";
 
 
 const NavigationBar = () => {
@@ -32,8 +30,8 @@ const NavigationBar = () => {
                         <NavDropdown menuVariant="dark" title="Студии и залы">
                             <NavDropdown.Item as={Link} to="/studios"
                                               onClick={() => setExpanded(false)}>Студии</NavDropdown.Item>
-                            <NavDropdown.Item as={Link} to="/halls"
-                                              onClick={() => setExpanded(false)}>Залы</NavDropdown.Item>
+                            {/*<NavDropdown.Item as={Link} to="/halls"*/}
+                            {/*                  onClick={() => setExpanded(false)}>Залы</NavDropdown.Item>*/}
                         </NavDropdown>
                         <Nav.Link as={Link} to="/photographers" onClick={() => setExpanded(false)}>Фотографы</Nav.Link>
                     </Nav>
@@ -90,9 +88,7 @@ const NavigationBar = () => {
 
 
                 </Navbar.Collapse>
-
             </Container>
-
         </Navbar>
 
     );

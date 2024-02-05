@@ -1,13 +1,11 @@
 import * as React from 'react';
-import {Button, Card, Col, Container, Form, InputGroup, Row, Accordion} from "react-bootstrap";
+import {Button, Col, Container, Form, InputGroup, Row, Accordion} from "react-bootstrap";
 import {Search} from "react-bootstrap-icons";
+import studiosData from "./studios.data"
+import StudioCard from "./components/StudioCard";
 
 const StudiosPage = () => {
-
-    const studios = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,];
-
     return (
-
         <Container className="mt-3">
             <Row><h3>Студии</h3></Row>
             <Row>
@@ -87,22 +85,8 @@ const StudiosPage = () => {
                 <Col md={9}>
                     <Row xs={1} md={3}>
                         {
-                            studios.map((i) => (
-                                <Col className="mb-3">
-                                    <Card>
-                                        <Card.Img variant="top" src="https://via.placeholder.com/300"/>
-                                        <Card.Body>
-                                            <Card.Title>Студия {i}</Card.Title>
-                                            <Card.Text>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                                                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                                commodo consequat.
-                                            </Card.Text>
-                                            <Button variant="warning" className='w-100'>Забронировать</Button>
-                                        </Card.Body>
-                                    </Card>
-                                </Col>
+                            studiosData.map((studio) => (
+                                <StudioCard studio={studio}/>
                             ))
                         }
 
